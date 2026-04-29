@@ -1,0 +1,11 @@
+[project]
+name = "reqforge-mermaid-mcp"
+version = "0.1.0"
+description = "ReqForge Mermaid MCP Server — 流程图/时序图/状态图生成"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp>=1.0",
+]
+
+[project.scripts]
+mermaid-mcp = "server:main"

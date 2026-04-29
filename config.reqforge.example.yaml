@@ -1,0 +1,42 @@
+# ReqForge 配置文件
+# 使用方法: 将此文件内容合并到 DeerFlow 的 config.yaml 中
+# 先从 config.example.yaml 复制基础配置，再追加以下 ReqForge 段
+
+mcp_servers:
+  ontology-mcp:
+    command: uv
+    args: ["run", "--directory", "mcp-servers/ontology-mcp", "server.py"]
+    description: "行业需求本体建模 — 事件映射、事实建立、策略评估"
+
+  governance-mcp:
+    command: uv
+    args: ["run", "--directory", "mcp-servers/governance-mcp", "server.py"]
+    description: "需求质量治理 — 规则匹配、完整性检查、解释输出"
+
+  evidence-mcp:
+    command: uv
+    args: ["run", "--directory", "mcp-servers/evidence-mcp", "server.py"]
+    description: "证据链与追溯 — 需求-文档-规则-字段-接口-测试追溯"
+
+  docling-mcp:
+    command: uv
+    args: ["run", "--directory", "mcp-servers/docling-mcp", "server.py"]
+    description: "企业文档解析 — PDF/Word/Excel/PPT → 结构化输出"
+
+  mermaid-mcp:
+    command: uv
+    args: ["run", "--directory", "mcp-servers/mermaid-mcp", "server.py"]
+    description: "流程图/时序图/状态图生成"
+
+custom_skills_dir: skills/custom
+
+reqforge:
+  ontology_schema_dir: mcp-servers/ontology-mcp/schemas
+  quality_thresholds:
+    completeness_min: 0.80
+    consistency_min: 0.80
+    traceability_min: 0.90
+    overall_ready_threshold: 0.80
+  artifact_output:
+    formats: [markdown, docx, pdf]
+    template_dir: templates/artifacts
