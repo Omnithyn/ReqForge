@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+:root {
+  --reqforge-primary: #1677ff;
+  --reqforge-success: #52c41a;
+  --reqforge-warning: #faad14;
+  --reqforge-error: #ff4d4f;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.reqforge-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
