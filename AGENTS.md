@@ -99,7 +99,7 @@ bash scripts/reqforge/sync-upstream.sh
 | P0-3 | 创建 MCP Server 骨架 (5个) | `mcp-servers/*/` | ✅ 完成 |
 | P0-4 | 创建第一个领域 Skill | `skills/custom/requirement-analysis/` | ✅ 完成 |
 | P0-5 | 创建 sync-upstream.sh 脚本 | `scripts/reqforge/` | ✅ 完成 |
-| P0-6 | SaucyClaw 代码迁移 → MCP Server | `mcp-servers/ontology-mcp/src/` 等 | ⏳ 待实施 |
+| P0-6 | SaucyClaw 代码迁移 → MCP Server | `mcp-servers/ontology-mcp/src/` 等 | ✅ 完成 (40 files, 5891 lines) |
 | P0-7 | DeerFlow 底座验证 (`make dev`) | — | ⏳ 待实施 |
 
 ### Phase 1：SaucyClaw 资产迁移（即将开始）
@@ -245,9 +245,9 @@ When user asks for X.
 
 | Server | pyproject.toml | server.py | 实际功能 | 来源 |
 |--------|---------------|-----------|---------|------|
-| ontology-mcp | ✅ | ✅ (stub) | ⏳ 待迁移 SaucyClaw ontology/ | SaucyClaw |
-| governance-mcp | ✅ | ✅ (stub) | ⏳ 待迁移 SaucyClaw core/governance/ | SaucyClaw |
-| evidence-mcp | ✅ | ❌ (无 server.py) | ⏳ 待实现 | SaucyClaw |
+| ontology-mcp | ✅ | ✅ (调用真实代码) | ✅ Phase 1 迁移完成 | SaucyClaw |
+| governance-mcp | ✅ | ✅ (调用真实代码, exists bug fixed) | ✅ Phase 1 迁移完成 | SaucyClaw |
+| evidence-mcp | ✅ | ✅ (调用真实代码) | ✅ Phase 1 迁移完成 | SaucyClaw |
 | docling-mcp | ✅ | ❌ (无 server.py) | ⏳ 待实现 | 新建 |
 | mermaid-mcp | ✅ | ❌ (无 server.py) | ⏳ 待实现 | 新建 |
 
