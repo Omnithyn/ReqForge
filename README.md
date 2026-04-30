@@ -1,3 +1,5 @@
+> 🏗️ **ReqForge** — Fork of DeerFlow for Enterprise Requirement Engineering. See [REQFORGE.md](./REQFORGE.md) and [AGENTS.md](./AGENTS.md).
+
 # 🦌 DeerFlow - 2.0
 
 English | [中文](./README_zh.md) | [日本語](./README_ja.md) | [Français](./README_fr.md) | [Русский](./README_ru.md)
