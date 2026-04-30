@@ -1,9 +1,9 @@
 const withBundleAnalyzer = process.env.ANALYZE === 'true'
   ? require('@next/bundle-analyzer')()
-  : (config: any) => config;
+  : (config) => config;
 
 const nextConfig = {
-  output: 'standalone' as const,
+  output: 'standalone',
   transpilePackages: ['antd', '@ant-design/icons', '@antv/g6'],
   async rewrites() {
     return [

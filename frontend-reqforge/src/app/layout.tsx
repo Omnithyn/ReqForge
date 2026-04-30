@@ -3,7 +3,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import './globals.css';
-import { ReqForgeLayout } from '@/components/ReqForgeLayout';
+import { ReqForgeShell } from '@/components/ReqForgeShell';
 
 export const metadata: Metadata = {
   title: 'ReqForge — 企业需求工程工作台',
@@ -19,12 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             locale={zhCN}
             theme={{
               token: {
-                colorPrimary: '#1677ff',
+                colorPrimary: '#1890FF',
                 borderRadius: 6,
+                colorBgContainer: '#FFFFFF',
               },
             }}
           >
-            <ReqForgeLayout>{children}</ReqForgeLayout>
+            <ReqForgeShell>{children}</ReqForgeShell>
           </ConfigProvider>
         </AntdRegistry>
       </body>

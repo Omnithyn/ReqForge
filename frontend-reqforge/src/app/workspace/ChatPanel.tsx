@@ -1,35 +1,64 @@
 'use client';
 
-import { Card, Input, Button, Space, Typography, Avatar, Spin } from 'antd';
-import { SendOutlined, RobotOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons';
+import { Card, Input, Button, Space, Typography, Avatar, Badge } from 'antd';
+import {
+  SendOutlined,
+  RobotOutlined,
+  UserOutlined,
+  UploadOutlined,
+  CheckSquareOutlined,
+} from '@ant-design/icons';
 import { useState } from 'react';
 
-const { Text, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  timestamp?: string;
 }
 
 export function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: '👋 欢迎使用 ReqForge 需求工程工作台！上传业务文档或描述需求，我将帮你完成需求分析。' },
+    {
+      role: 'assistant',
+      content: '👋 欢迎使用 ReqForge 需求工程工作台！我已准备好协助您完成需求分析。请上传业务文档或直接描述您的需求。',
+      timestamp: '10:30',
+    },
+    {
+      role: 'user',
+      content: '我需要设计一个车险理赔系统，包含报案、查勘、定损、核赔、支付等核心流程。',
+      timestamp: '10:32',
+    },
+    {
+      role: 'assistant',
+      content: '收到！我将为您分析车险理赔系统的需求。首先进行文档解析，提取关键业务流程...',
+      timestamp: '10:32',
+    },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
-    const userMsg: Message = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMsg]);
+    const userMsg: Message = {
+      role: 'user',
+      content: input,
+      timestamp: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+    };
+    setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setLoading(true);
 
     setTimeout(() => {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: '正在分析你的需求...（MCP Server 集成中，当前为 UI 预览）',
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: '正在分析您的需求...（当前为 UI 预览模式）',
+          timestamp: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+        },
+      ]);
       setLoading(false);
     }, 1000);
   };
@@ -37,38 +66,72 @@ export function ChatPanel() {
   return (
     <Card
       title="需求对话"
-      extra={<Button icon={<UploadOutlined />}>上传文档</Button>}
-      style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-      bodyStyle={{ flex: 1, overflow: 'auto', padding: 12 }}
+      className="h-full"
+      styles={{ body: { height: 'calc(100% - 56px)', padding: 0 } }}
     >
-      <div style={{ flex: 1, overflow: 'auto', marginBottom: 12, minHeight: 300 }}>
-        {messages.map((msg, i) => (
-          <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 16, flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }}>
-            <Avatar icon={msg.role === 'user' ? <UserOutlined /> : <RobotOutlined />}
-              style={{ backgroundColor: msg.role === 'user' ? '#1677ff' : '#52c41a' }} />
-            <div style={{
-              maxWidth: '70%',
-              padding: '8px 12px',
-              borderRadius: 8,
-              background: msg.role === 'user' ? '#e6f4ff' : '#f6ffed',
-            }}>
-              <Paragraph style={{ margin: 0 }}>{msg.content}</Paragraph>
+      <div className="flex flex-col h-full">
+        <div className="flex-1 overflow-auto p-4 space-y-4">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`flex gap-3 ${
+                msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+              }`}
+            >
+              <Avatar
+                icon={msg.role === 'user' ? <UserOutlined /> : <RobotOutlined />}
+                className={msg.role === 'user' ? 'bg-[#1890FF]' : 'bg-[#52C41A]'}
+                size={36}
+              />
+              <div
+                className={`max-w-[70%] px-4 py-3 rounded-lg ${
+                  msg.role === 'user'
+                    ? 'bg-[#E6F4FF] text-right'
+                    : 'bg-[#F6FFED] text-left'
+                }`}
+              >
+                <Paragraph className="!mb-1 !text-sm">{msg.content}</Paragraph>
+                <span className="text-xs text-gray-400">{msg.timestamp}</span>
+              </div>
             </div>
-          </div>
-        ))}
-        {loading && <Spin tip="正在分析..." />}
+          ))}
+          {loading && (
+            <div className="flex items-center gap-2 text-gray-400">
+              <div className="w-2 h-2 bg-[#1890FF] rounded-full animate-bounce" />
+              <div className="w-2 h-2 bg-[#1890FF] rounded-full animate-bounce delay-100" />
+              <div className="w-2 h-2 bg-[#1890FF] rounded-full animate-bounce delay-200" />
+              <span className="text-sm ml-2">AI 正在思考...</span>
+            </div>
+          )}
+        </div>
+
+        <div className="p-4 border-t border-gray-100 bg-white">
+          <Space.Compact className="w-full">
+            <Button icon={<UploadOutlined />} className="flex-shrink-0">
+              上传
+            </Button>
+            <Button icon={<CheckSquareOutlined />} className="flex-shrink-0">
+              任务
+            </Button>
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onPressEnter={handleSend}
+              placeholder="描述您的需求，或上传文档开始分析..."
+              className="flex-1"
+            />
+            <Button
+              type="primary"
+              icon={<SendOutlined />}
+              onClick={handleSend}
+              loading={loading}
+              className="flex-shrink-0"
+            >
+              发送
+            </Button>
+          </Space.Compact>
+        </div>
       </div>
-      <Space.Compact style={{ width: '100%' }}>
-        <Input
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onPressEnter={handleSend}
-          placeholder="描述你的需求，或上传文档..."
-        />
-        <Button type="primary" icon={<SendOutlined />} onClick={handleSend} loading={loading}>
-          发送
-        </Button>
-      </Space.Compact>
     </Card>
   );
 }
