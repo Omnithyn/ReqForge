@@ -11,8 +11,8 @@ ReqForge = **DeerFlow (底座)** + **SaucyClaw (治理资产)** = **企业交互
 | 来源 | 角色 | 在仓库中的位置 |
 |------|------|---------------|
 | DeerFlow (上游) | Web UI、Agent编排(LangGraph)、Skills、Sandbox、Memory、IM | `frontend/` `backend/` `docker/` `skills/public/` |
-| SaucyClaw (迁移中) | 本体建模、治理规则、证据追溯 | `mcp-servers/ontology-mcp/` `mcp-servers/governance-mcp/` `mcp-servers/evidence-mcp/` |
-| ReqForge (新建) | 需求分析流程、文档解析、研发准备包 | `skills/custom/` `mcp-servers/docling-mcp/` `mcp-servers/mermaid-mcp/` `templates/artifacts/` |
+| SaucyClaw (已迁移) | 本体建模、治理规则、证据追溯 | `mcp-servers/ontology-mcp/` `mcp-servers/governance-mcp/` `mcp-servers/evidence-mcp/` |
+| ReqForge (新建) | 需求分析流程、文档解析、研发准备包、企业级前端 | `frontend-reqforge/` `skills/custom/` `mcp-servers/docling-mcp/` `mcp-servers/mermaid-mcp/` `templates/artifacts/` |
 
 **核心主张**：以类 ChatGPT/Manus 交互式工作台为入口，以 Harness 式智能体驾驭为底座，以行业需求本体和知识库为核心资产，将需求工作从"文档编写"升级为"可追溯、可评审、可生成、可复用的研发准备过程"。
 
@@ -65,6 +65,7 @@ bash scripts/reqforge/sync-upstream.sh
 | `README.md` | 可加 ReqForge banner（本分支 rebase，不改上游版本） |
 | `config.reqforge.example.yaml` | ReqForge 专属配置 |
 | `mcp-servers/` | 全部 MCP Server（本体、治理、证据、文档解析、流程图） |
+| `frontend-reqforge/` | ReqForge 独立企业级前端（Next.js 16 + Ant Design 5） |
 | `skills/custom/` | ReqForge 领域 Skill |
 | `scripts/reqforge/` | ReqForge 运维脚本 |
 | `.reqforge/` | ReqForge 内部文档和迁移指南 |
@@ -90,7 +91,7 @@ bash scripts/reqforge/sync-upstream.sh
 
 ## 四、二次开发内容总览
 
-### 当前阶段：Phase 0 — 基础框架搭建
+### 当前阶段：Phase 1 — SaucyClaw 资产迁移 ✅ 完成，Phase 2 进行中
 
 | 编号 | 任务 | 位置 | 状态 |
 |------|------|------|------|
@@ -99,10 +100,12 @@ bash scripts/reqforge/sync-upstream.sh
 | P0-3 | 创建 MCP Server 骨架 (5个) | `mcp-servers/*/` | ✅ 完成 |
 | P0-4 | 创建第一个领域 Skill | `skills/custom/requirement-analysis/` | ✅ 完成 |
 | P0-5 | 创建 sync-upstream.sh 脚本 | `scripts/reqforge/` | ✅ 完成 |
-| P0-6 | SaucyClaw 代码迁移 → MCP Server | `mcp-servers/ontology-mcp/src/` 等 | ✅ 完成 (40 files, 5891 lines) |
-| P0-7 | DeerFlow 底座验证 (`make dev`) | — | ⏳ 待实施 |
+| P0-6 | SaucyClaw 代码迁移 → MCP Server (22 files, ~3500 lines) | `mcp-servers/*/src/` | ✅ 完成 |
+| P0-7 | MCP server.py 实现（调用真实迁移代码） | `mcp-servers/*/server.py` | ✅ 完成 |
+| P0-8 | 企业级前端 UI 重写 (13导航, 深蓝侧边栏, 26 files) | `frontend-reqforge/` | ✅ 完成 |
+| P0-9 | DeerFlow 底座验证 | — | ⏳ 待实施 |
 
-### Phase 1：SaucyClaw 资产迁移（即将开始）
+### Phase 1：SaucyClaw 资产迁移 ✅ 已完成
 
 | 编号 | 源文件 (SaucyClaw) | 目标 (ReqForge) | 说明 |
 |------|-------------------|-----------------|------|
@@ -138,14 +141,20 @@ bash scripts/reqforge/sync-upstream.sh
 | artifact-packaging | `skills/custom/artifact-packaging/SKILL.md` | 研发准备包打包 |
 | traceability-matrix | `skills/custom/traceability-matrix/SKILL.md` | 追溯矩阵 |
 
-### Phase 4：前端定制（后续）
+### Phase 4：前端完善（已部分完成）
 
 | 任务 | 位置 | 说明 |
 |------|------|------|
-| 任务推进面板 | `frontend/src/app/reqforge/TaskStepper.tsx` | 需求分析阶段可视化 |
-| 本体关系图 | `frontend/src/app/reqforge/OntologyGraph.tsx` | D3.js 渲染本体关系 |
-| 评审区 | `frontend/src/app/reqforge/ReviewPanel.tsx` | 待确认项 + 评分卡 |
-| 研发准备包预览 | `frontend/src/app/reqforge/ArtifactPanel.tsx` | PRD/API/测试预览 |
+| 全局布局 + 13 导航 | `frontend-reqforge/src/components/ReqForgeShell.tsx` | ✅ 完成 |
+| 对话工作台 | `frontend-reqforge/src/app/workspace/` | ✅ 完成 |
+| 研发准备包 | `frontend-reqforge/src/app/artifacts/page.tsx` | ✅ 完成 |
+| 首页仪表盘 | `frontend-reqforge/src/app/page.tsx` | ✅ 完成 |
+| 本体关系图 | `frontend-reqforge/src/app/ontology/` | 🔜 D3.js/G6 交互图 |
+| 文档中心 | `frontend-reqforge/src/app/documents/` | 🔜 骨架→真实数据 |
+| 知识库 | `frontend-reqforge/src/app/knowledge/` | 🔜 骨架→真实数据 |
+| 评审中心 | `frontend-reqforge/src/app/review/` | 🔜 骨架→评分卡+雷达图 |
+
+> **注意**：ReqForge 前端是独立 Next.js 应用 (`frontend-reqforge/`, 端口 3001)，与 DeerFlow 前端 (`frontend/`, 端口 3000) 完全隔离，不改动上游文件。
 
 ---
 

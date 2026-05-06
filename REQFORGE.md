@@ -65,6 +65,10 @@ ReqForge/
 ├── config.reqforge.example.yaml    ← ReqForge 专属配置
 ├── .reqforge/                      ← ReqForge 内部文档
 │   └── INTEGRATION.md              ← SaucyClaw 迁移指南
+├── frontend-reqforge/               ← 🆕 ReqForge 独立企业级前端 (Next.js 16 + Ant Design 5, port 3001)
+│   ├── src/app/workspace/           ← 对话工作台
+│   ├── src/app/artifacts/           ← 研发准备包
+│   └── src/app/                     ← 首页 + 8 骨架页面
 ├── mcp-servers/                    ← 全部 ReqForge MCP Server
 │   ├── ontology-mcp/               ← SaucyClaw ontology/ 迁移
 │   ├── governance-mcp/             ← SaucyClaw core/governance/ 迁移
